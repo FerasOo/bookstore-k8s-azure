@@ -6,7 +6,8 @@ A modern Flask application containerized with Docker and deployed on Azure Kuber
 
 Check out our application demo video:
 
-[Application Demo](app-demo.mov)
+https://github.com/user-attachments/assets/90cb0623-ab32-4bb2-bf8a-66bc402c3bd5
+
 
 
 
