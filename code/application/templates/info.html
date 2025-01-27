@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>BookStore Database</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div class="book-container">
+            <!---image-->
+            <div class="book-details">
+                <h1>{{book['title']}}</h1>
+                <p><strong>ISBN:</strong>{{book['isbn']}}</p>
+                <p><strong>Year:</strong>{{book['year']}}</p>
+                <p><strong>Category:</strong>{{book['category']}}</p>
+                <p><strong>Number Of Pages:</strong>{{book['page']}}</p>
+                <p><strong>Author:</strong>{{book['author']['firstName']}} {{book['author']['lastName']}}</p>
+                <p><strong>Publisher:</strong>{{book['publisher']['name']}}</p>
+                <p><strong>Price:</strong>${{book['price']}}</p>
+            </div>
+
+            
+
+                <button class="delete" id="deleteButton" data-id="{{book['_id']}}">DELETE</button>
+                <script>
+                    document.getElementById("deleteButton").addEventListener('click', function(){
+                        var itemID = this.getAttribute('data-id')
+                        fetch('/book/' + itemID, {
+                            method:'DELETE'
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            window.location.href = '/'; 
+                        })
+                        .catch(error => console.error('Error:', error));
+
+
+                    });
+                </script>
+    
+           
+
+        </div>
+
+        <div class="book-edit">
+            <h1>Edit book</h1>
+            <p>empty fields will be left unmodified<p>
+            <form id="editBookForm" data-id="{{book['_id']}}">
+                <input type="text" name="title" placeholder="book title">
+                <input type="text" name="isbn" placeholder="ISBN">
+                <input type="number" name="year" placeholder="year">
+                <input type="text" name="category" placeholder="category">
+                <input type="number" name="page" placeholder="number of pages">
+                <input type="text" name="authorFirstName" placeholder="author first name">
+                <input type="text" name="authorLastName" placeholder="author last name">
+                <input type="text" name="publisherName" placeholder="publisher name">
+                <input type="number" name="price" placeholder="price">
+                <!-- Add other fields like author, year, etc. -->
+                <button type="submit">Update Book</button>
+            </form>
+
+            <script>
+                document.getElementById('editBookForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                
+                    var formData = new FormData(this);
+                    var id = this.getAttribute('data-id'); // You need to get the ID of the book being edited
+                
+                    fetch('/book/' + id, {
+                        method: 'PUT',
+                        body: JSON.stringify(Object.fromEntries(formData)),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        window.location.href = '/';
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+                </script>
+        </div>
+
+
+       
+        
+        
+      
+    </body>
+</html>

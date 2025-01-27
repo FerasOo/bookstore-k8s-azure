@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>BookStore Database</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div class="content">
+            <div class="head">
+                <h1>Avaiable Book</h1>
+                <p>click on book to edit/delete</p>
+                <a href="{{url_for('add_book')}}" class="add-new">Add New Book</a>
+            </div>
+
+            <div class="head">
+                <h3>Find book by ISBN</h3>
+                <input type="text" id="isbnInput" placeholder="ISBN">
+                <a href="#" class="add-new" id="findBookButton">Find book</a>
+            </div>
+            <script>
+                document.getElementById('findBookButton').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var isbn = document.getElementById('isbnInput').value;
+                    if (isbn) {
+                        var url = "{{ url_for('get_book_by_isbn', id='ISBN_VALUE') }}".replace('ISBN_VALUE', encodeURIComponent(isbn));
+            window.location.href = url;
+                    } else {
+                        alert("Please enter an ISBN");
+                    }
+                });
+                </script>
+                
+            
+		    {% for book in books %}
+		    <div class="book">
+                <a href="{{url_for('get_book', id=book['_id'])}}">
+                </a>
+	        <!--Fetching a book-->
+		    <p> {{ book['title'] }} <i>
+			    ({{ book['year'] }})</i> 
+		    </p>
+
+            </div>
+            {% endfor %}
+
+        </div>
+        
+      
+    </body>
+</html>
