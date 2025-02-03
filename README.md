@@ -160,3 +160,5 @@ kubectl set image deployment/your-app-name your-app-name=your-acr-name.azurecr.i
 ```
 
 
+## 📝 Note
+This project is part of the AIN3003 (Database Systems and Cloud Computing) course assignment. For detailed methodology and findings, please refer to the project report.
